@@ -40,10 +40,11 @@ def get_snowflake_tables(cursor_object,database,schema):
     
     """  
     snowflake_tables=cursor_object.execute("select TABLE_CATALOG, TABLE_SCHEMA, TABLE_NAME, ROW_COUNT, COMMENT from " + database + ".INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA= '" + schema + "';").fetch_pandas_all()
+    print("\nget_snowflake get_snowflake_tables from database", database,"and schema", schema, "returned the following dataframe:\n")
     return(snowflake_tables)
 
-def get_snowflake__column_metadata(cursor_object, table_name):
-    snowflake__column_metadata = cursor_object.execute("select column_name, comment from information_schema.columns where table_name = '"+table_name+"';").fetch_pandas_all()
+def get_snowflake__column_metadata(cursor_object, database_name , schema_name, table_name):
+    snowflake__column_metadata = cursor_object.execute("select table_catalog, table_schema, table_name, column_name, comment from information_schema.columns where table_catalog = '"+ database_name + "' and table_schema = '" + schema_name + "' and table_name = '" + table_name + "';").fetch_pandas_all()
     return(snowflake__column_metadata)
 
 def get_snowflake_table_column_tags(cursor_object, database, table):
