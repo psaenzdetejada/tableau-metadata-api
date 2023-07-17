@@ -57,7 +57,7 @@ df_tableau_columns = pd.DataFrame()
 df_snowflake_columns = pd.DataFrame()
 
 for index, row in df_snow_tableau_tables.iterrows():
-    # update_tableau_table_description(authToken, pod, siteId, row["tableauTableId"], "3.20", row["snowflakeTableComment"], row["snowflakeTableRowCount"])
+    update_tableau_table_description(authToken, pod, siteId, row["tableauTableId"], "3.20", row["snowflakeTableComment"], row["snowflakeTableRowCount"])
     tableau_columns = get_tableau_columns_from_table(authToken, pod, siteId, row["tableauTableId"], "3.20")
     df_tableau_columns = pd.concat([tableau_columns, df_tableau_columns])
     snowflakle_columns = get_snowflake__column_metadata(auth_snow, row["snowflakeTableDatabase"], row["snowflakeTableSchema"], row["snowflakeTableName"])

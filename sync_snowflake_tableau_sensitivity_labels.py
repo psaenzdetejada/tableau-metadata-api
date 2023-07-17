@@ -4,7 +4,7 @@ import json
 import pandas as pd
 import snowflake.connector
 
-from tableau_api_functions import authenticate_tableau, get_tableau_tables_external_assets, update_tableau_table_description, get_tableau_columns_from_table, tableau_get_labelvalue, update_tableau_column_labels
+from tableau_api_functions import authenticate_tableau, get_tableau_tables_external_assets, update_tableau_table_description, get_tableau_columns_from_table, update_tableau_column_labels
 from snowflake_functions import authenticate_snowflake, get_snowflake_table_column_tags
 
 # Tableau Credentials
@@ -77,7 +77,6 @@ print("final")
 join_tableau = join_tableau.drop(["parentTableId", "OBJECT_DATABASE", "OBJECT_SCHEMA", "OBJECT_NAME", "DOMAIN", "COLUMN_NAME", "LEVEL", "TAG_SCHEMA", "TAG_DATABASE"], axis=1)
 print(join_tableau)
 
-tableau_get_labelvalue(pod, siteId, apiVersion, authToken, "SENSITIVE")
-
+sensitive_description = "Data that must be protected from unauthorized access to prevent harm to businesses and individuals alike. This classification include personal information, private information, health information, and high-risk data, among others."
 for index, row in join_tableau.iterrows():
-    update_tableau_column_labels(pod, siteId, apiVersion, authToken, row["id"], "SENSITIVE")
+    update_tableau_column_labels(authToken, pod, siteId, apiVersion, row["id"], row["TAG_VALUE"], sensitive_description)
